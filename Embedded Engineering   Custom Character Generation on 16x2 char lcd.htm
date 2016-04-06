@@ -1,0 +1,688 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><link rel="canonical" href="http://www.microcontrollerboard.com/lcd.html">
+ 
+<title>LCD - Liquid Crystal Display tutorial including LCD schematics, LCD registers, and LCD instruction set</title>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="http://www.microcontrollerboard.com/microcontroller-projects.xml">
+
+  
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta name="Description" content="Find here LCD - Liquid Crystal Display with Hitachi HD44780 controller, the schematics of the LCD, LCD registers, LCD instruction set, and FREE LCD program interface written in C language ">
+<meta name="Keywords" content="lcd, lcd controller, lcd registers, lcd instruction set, liquid crystal display,  HD44780 controller">
+
+
+<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="http://www.microcontrollerboard.com/favicon.ico">
+
+  
+  <link href="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/style.css" rel="stylesheet" type="text/css">
+</head>
+ 
+<body>
+ 
+  <div id="PageWrapper">
+
+   <!-- #BeginLibraryItem "/Library/header.lbi" -->
+   <div id="Header">
+     <!--	
+	
+ <MARQUEE behavior="alternate" scrollamount="3" bgcolor="#ffffff" width="50%">
+ <A HREF="http://www.microcontrollerboard.com/store.html"  >Limited time offer: FREE SHIPPING and HANDLING*** </A>
+ 
+ </MARQUEE>
+
+-->
+     <div id="pagetop-NavBar">
+       <ul>
+         <li> <a href="http://www.microcontrollerboard.com/pic_programmer.html">PIC Microcontroller programmer</a> </li>
+         <li> <a href="http://www.microcontrollerboard.com/analog-to-digital-converter.html">PIC Microcontroller ADC</a> </li>
+      
+         <li> <a href="http://www.microcontrollerboard.com/contact.html">Contact us</a> </li>
+         <li> <a href="http://microcontrollerboard.blogspot.com/" onclick="window.location.href='http://www.microcontrollerboard.com/cgi-bin/counter.pl?url=http%3A%2F%2Fmicrocontrollerboard%2Eblogspot%2Ecom%2F&amp;referrer=http%3A%2F%2Fwww%2Emicrocontrollerboard%2Ecom%2Findex%2Ehtml'; return false;">Blog</a> </li>
+       </ul>
+     </div>
+     <div class="Liner"></div>
+     <!-- end Liner -->
+     <!--horizontal google 5 links ad -->
+     <div id="Google-Horiz-link">
+       <script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* horiz-5links, 728x15, created 8/9/10 */
+google_ad_slot = "7760391552";
+google_ad_width = 728;
+google_ad_height = 15;
+//-->
+   </script>
+       <script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+   </script>
+     </div>
+   </div>
+   <!-- end Header -->
+   <!-- #EndLibraryItem -->
+<div id="ContentWrapper">
+	
+	
+<div id="CenterColumn">
+        <div class="Liner">
+        
+        <!-- Begin Center Column Content -->
+ 
+          <h1>LCD - Liquid Crystal Display tutorial</h1>
+ 
+ <p>
+ In this tutorial we will study about the Liquid Crystal Display (LCD). 
+The EDUPIC microcontroller board uses the LCD to display information 
+such as text, messages, and data. We will look at: </p>
+ <ul>
+ 
+ <li><a href="#LCDreg" target="_self">the HD44780U controller registers </a></li>
+ <li><a href="#LCDsteps" target="_self">the steps to write character to the LCD display </a></li>
+ <li><a href="#LCDinst" target="_self">the LCD instructions set</a> </li>
+ <li><a href="#LCDhard" target="_self">the LCD hardware configuration </a></li>
+ <li><a href="#LCDprog" target="_self">the FREE LCD program written in C language</a> </li>
+ 
+ </ul>
+ 
+ <div class="CalloutBox">
+ <p class="AdSenseBoxCenter">
+<script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* 468x60, created 7/27/09 */
+google_ad_slot = "3586055936";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+</script>
+</p>
+</div>
+
+ 
+ 
+
+
+<h3>The Schematics of the LCD:</h3>
+
+<p>
+The LCD display has two lines of characters, 16 characters per line. 
+Each character is composed of matrix of pixels size 5x8. The matrix is 
+controlled by Hitachi HD44780 controller, which performs all the 
+operations that are required to run the matrix. Controller operation is 
+done in accordance with the instructions it receives as described below:
+</p>
+
+
+<p class="ItemCenter"><img src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/lcd_connectors.jpg" alt="LCD PINS" border="0" height="242" width="424"><br></p>
+
+
+<p class="AdSenseBoxRight">
+<script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* 250x250, created 7/27/09 */
+google_ad_slot = "2916699128";
+google_ad_width = 250;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+</script>
+</p>
+
+
+<ul>
+	<li>DB0 - DB7, the 8 data bus lines, which perform read/write of data</li>
+	<li>Vss, Vdd - Voltage supply pins</li>
+	<li>R/W – Pin writing/reading to/from - LCD</li>
+	<li>RS - Pin selects registers between Instruction Register and Data Register</li>
+	<li>E - "Enabling" pin; when this pin is set to logical low, the LCD 
+does not care what is happening with R/W, RS, and the data bus lines; 
+when this pin is set to logical high, the - LCD is processing the 
+incoming data</li>
+	<li>Vo - Pin for LCD contrast</li>
+</ul>
+
+<h3 id="LCDreg">LCD registers</h3>
+<p>
+The HD44780U controller has two 8-bit registers: 
+</p>
+
+<ul>
+
+<li><i>an instruction register (IR)</i> - the IR stores instruction 
+codes, such as display clear and cursor shift, and address information 
+for display data RAM (DDRAM) and character generator RAM (CGRAM).</li>
+<li><i>a data register (DR)</i> - the DR temporarily stores data to be 
+written into DDRAM or CGRAM and temporarily stores data to be read from 
+DDRAM or CGRAM. The DR is also used for data storage when reading data 
+from DDRAM or CGRAM.</li>
+
+</ul>
+
+<p>
+The choice between the two registers is made by the <span style="background-color:yellow;padding:0 2px;"> register selector (RS) signal</span> as detailed the following table: 
+</p>
+
+
+<table align="center" border="1">	<tbody><tr>		<td colspan="3"><b>Register Selector</b></td>			</tr>	<tr>		<td align="center" width="33">RS</td>		<td align="center" width="43">R/W</td>		<td width="322">&nbsp;</td>	</tr>	<tr>		<td align="center" width="33">0</td>		<td align="center" width="43">0</td>		<td width="322">Sends a command to LCD </td>	</tr>	<tr>		<td align="center" width="33">0</td>		<td align="center" width="43">1</td>		<td width="322">Read busy flag (DB7) and address counter (DB0 to DB6)</td>	</tr>	<tr>		<td align="center" width="33">1</td>		<td align="center" width="43">0</td>		<td width="322">Sends information to LCD </td>	</tr>	<tr>		<td align="center" width="33">1</td>		<td align="center" width="43">1</td>		<td width="322">Reads information from LCD </td>	</tr></tbody></table>
+
+
+<p>
+
+<strong>Busy Flag (BF)</strong><br>
+BF gives an indication whether the LCD is finished the previous instruction and ready with the next.
+</p>
+
+<p>
+
+<strong>DDRAM Memory (Display Data RAM)</strong><br>
+Display data RAM (DDRAM) stores the information we send to LCD in ASCII 
+Code. For each letter there is a special code that represents it: for 
+example, the letter A in ASCII code, “receives” a value of 65 in base 10
+ or 01000001 in binary base, or 41 in the base 16. The memory can 
+contain up to 80 letters.
+</p>
+<p>
+Some of the addresses represent the lines of LCD (0x00-0x0F- first line;
+ 0x40-0x4F – second line). The rest of the addresses represent the 
+“non-visible” memory of the DRAM, which can be also used as a general 
+memory. The DDRAM address is the position of the cursor on the display 
+LCD (the received information will be written at the place where the 
+cursor is). 
+</p>
+
+<p class="ItemCenter">
+<img src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/lcd_display_position.jpg" alt="LCD display position" border="1" height="121" width="454">
+</p>
+
+<p>
+<strong>CGRAM Memory (Character Generator RAM)</strong><br>
+Using CGRAM memory the user can “build” and store their own letters. For
+ 5x8 dots, eight character patterns can be written, and for 5x10 dots, 
+four character patterns can be written.The difference between the 
+memories is that the DDRAM memory displays on the screen the “ready” 
+characters in accordance with the ASCII code, while the CGRAM memory 
+displays the special characters that the user has created.</p>
+<p> <a href="http://www.microcontrollerboard.com/support-files/lcd_hd44780u_data_sheet.pdf">Please CLICK here to access the LCD HD44780U data sheet for more information (279kb)</a></p>
+
+<p>
+<strong>Address Counter (AC)</strong><br>
+The address counter (AC) assigns addresses to both DDRAM and CGRAM. When
+ an address of an instruction is written into the IR, the address 
+information is sent from the IR to the AC. Selection of either DDRAM or 
+CGRAM is also determined concurrently by the instruction. After writing 
+into (reading from) DDRAM or CGRAM, the AC is automatically incremented 
+by 1(decremented by 1). The AC contents are then output to DB0 to DB6 
+when RS = 0 and R/W = 1.
+</p>
+
+
+<h3 id="LCDsteps">Writing a letter/character to the LCD display</h3>
+<p>
+To write a letter/character on the LCD display we have to do the following:
+</p>
+
+
+<p class="AdSenseBoxRight">
+<script language="javascript" id="mNSC" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/cmedianet"></script>
+</p>
+
+
+<ol>
+	<li>Perform an initialization.</li>
+	<li>Send the desired position to IR (DDRAM Address).</li>
+	<li>Send ASCII code of the letter to DR.</li>
+
+</ol>
+
+<p>
+LCD display will show the letter that matches the code that was sent and
+ the address counter AC will be updated (increment or decrement, 
+depending on how it was initialized). You can write strings by sending 
+characters in sequence. 
+</p>
+
+
+<h3 id="LCDinst">LCD instruction set</h3>
+<p>
+The LCD instruction set consists of the commands you can send to LCD. 
+Remember that the RS line needs to be set to zero to send instruction to
+ the LCD. When the RS line is set to one, you are sending data to 
+display memory or the character graphics (CG) memory. An “X” in any 
+position means it does not matter what you enter there.
+</p>
+
+<p><strong>Clear Display:</strong><br>
+This command clears the display and returns the cursor to the home 
+position (address 0) and sets I/D to 1 in order to increment the cursor.
+ Its line settings are as follows:
+</p>
+
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>	</tr></tbody></table>
+
+<p><strong>Home Cursor:</strong><br>
+ This returns the cursor to the home position, returns a shifted display
+ to the correct position, and sets the display data (DD) RAM address to 
+0. Its line settings are as follows:
+ </p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		<td>X</td>	</tr></tbody></table>
+
+<p><strong>Entry Mode Set:</strong><br>
+This command sets the cursor move direction and specifies whether 
+toshift the display or not. These operations are performed during the 
+data write/read of the CG or DD RAM. Its line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		<td>I/D</td>		<td>S</td>	</tr></tbody></table>
+
+<p>
+I/D=0 means the cursor position is decremented (moves right to left).<br>
+I/D=1 means the cursor position is incremented (moves left to right).<br>
+S=0 means normal operation, the display remains still, and the cursor moves.<br>
+S=1 means the display moves with the cursor.<br>
+</p>
+
+<p><strong>Display On/Off Control:</strong><br> 
+This command sets the ON/OFF display as well as the cursor and blinking 
+capabilities (0 equals OFF; 1 equals ON). D controls whether the display
+ is ON or OFF, C controls whether the cursor is ON or OFF, B controls 
+whether the blinking is ON or OFF. The line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		<td>D</td>		<td>C</td>		<td>B</td>	</tr></tbody></table>
+
+<p><strong>Cursor or Display Shift:</strong><br>
+This moves the cursor and shifts the display without changing DD RAM contents. The line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		<td>S/C</td>		<td>R/L</td>		<td>X</td>		<td>X</td>	</tr></tbody></table>
+
+<p>
+S/C=0 means move the cursor.<br>
+S/C=1 means shift display.<br>
+R/L= 0 means shift to the left.<br>
+R/L= 1 means shift to the right. <br>
+</p>
+
+<p><strong>Function Set:</strong><br> 
+This sets the interface data length (DL), the number of display lines 
+(N), and character font (F). The line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		<td>DL</td>		<td>N</td>		<td>F</td>		<td>X</td>		<td>X</td>	</tr></tbody></table>
+
+<p>
+DL=0 means 4 bits are being used (the standard)<br>
+DL=1 means a full 8 bits being utilized<br>
+N=0 means 1 line<br>
+N=1 means 2 lines or more<br>
+F=0 means that 5x7 dot characters are used (which is how 99% of all LCDs are set up)<br>
+F=1 means 5x10 dot characters are used <br>
+</p>
+
+<p><strong>Set CG RAM Address:</strong><br> 
+This command sets the custom graphics (CG) RAM address. Setting RS to 1 
+sends data to CG RAM instead of the DD RAM. Eight CG characters are 
+available, and they reside in the ASCII codes 0 through 7. The is sent 
+in the 8-bit bytesfrom the top row to the bottom row and is left 
+justified, meaning that only the bottom 5 bits matter (it is a 5x7 dot 
+matrix). The line settings are as follows:
+</p><table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>		
+<td colspan="6">MSB &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+CG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 		
+RAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ADDRESS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 		LSB</td>	
+</tr></tbody></table>
+
+<p><strong>Set DD RAM Address:</strong><br>
+This sets the DD RAM address. Setting RS to 1 sends data to the display 
+RAM, and the cursor advances in the direction where the I/D bit was set 
+to. The line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>0</td>		<td>1</td>		<td colspan="7">MSB DD RAM ADDRESS LSB</td>	</tr></tbody></table>
+
+<p><strong>Read Busy Flag and Address:</strong><br>
+This reads the busy flag (BF). If BF equals to 1, the LCD is busy and 
+displays the location of the cursor. With the R/W line grounded, this 
+command can not be used. The line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>0</td>		<td>1</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>0</td>		<td>1</td>	</tr></tbody></table>
+
+<p><strong>Write Data to CG or DD RAM:</strong><br> 
+This command’s line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>1</td>		<td>0</td>		<td colspan="8">MSB ASCII code or CG bit pattern data&nbsp;&nbsp; LSB</td>	
+</tr></tbody></table>
+
+<p><strong>Read Data from CG or DD RAM:</strong><br> 
+This command’s line settings are as follows:
+</p>
+<table border="1" width="100%">	<tbody><tr>		<td>RS</td>		<td>R/W</td>		<td>D7</td>		<td>D6</td>		<td>D5</td>		<td>D4</td>		<td>D3</td>		<td>D2</td>		<td>D1</td>		<td>D0</td>	</tr>	<tr>		<td>1</td>		<td>1</td>		<td colspan="8">MSB ASCII code 		or CG bit pattern data&nbsp;&nbsp;LSB</td>	</tr></tbody></table>
+<br>
+
+<h3>The LCD Initializing sequence:</h3>
+
+<p>
+The initializing sequence includes the steps that need to be executed in
+ order for the LCD to work. In fact, these sequences of steps define in 
+what form we want the LCD to work: the data length (8 bit or 4 bit); 
+size of the letters; activation of the cursor; and more. When you send 
+out an instruction (command or information) to the LCD it takes some 
+time to execute it, so it's important to make sure that the LCD is 
+"ready" for the next instruction/operation.
+</p>
+
+<p>
+You can check if the LCD is ready in the following 2 ways:
+</p>
+
+<ol>
+
+<li>Create a delay subroutine to accommodate the minimum execution time.</li>
+<li>Scanning BF (busy flag) bit – this bit gives an indication whether the LCD is finished working.</li>
+</ol>
+
+
+<h3 id="LCDhard">LCD hardware configuration</h3>
+
+<p>
+The traditional LCD connection is via a 14-pin dual in-line connector 
+that works nicely with a 14-pin ribbon cable connector as show in the 
+figure below:
+</p>
+
+<p class="ItemCenter">
+<img src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/14_pin_ribbon_cable_connector.jpg" alt="LCD 14 pin ribbon cable connector" border="0" height="180" width="500">
+</p>
+
+<div class="CalloutBox">
+
+<p class="AdSenseBoxCenter">
+<script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* 468x60, created 7/27/09 */
+google_ad_slot = "3586055936";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+</script>
+</p>
+
+
+</div>
+
+<p>
+Even though the cable pin out consists of 8 data lines (DB0-DB7), 
+traditionally everyone uses the LCD in 4-bit mode to save on data lines 
+and control signal lines. The following figure shows the LCD connection 
+as it used with EduPIC development board.
+</p>
+
+<p class="ItemCenter">
+<img src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/LCD_CONNECTION_EDUPIC.jpg" alt="LCD CONNECTION to the EDUPIC development board" border="0" height="250" width="500"></p>
+
+<p>
+We used 4 consecutive bits (PORTD0-PORTD3) in configurable nibble as the
+ data lines. In addition, we used PORTE0-PORTE2 for the RS, EN and RW 
+control signals lines.
+</p>
+<p>
+<i>Note:</i> Typically, the LCD is used as an output-only device. If you
+ want to keep track of the location of the cursor or what is in the 
+special character buffer in your program, you need to tie the Read/NOT 
+Write line to ground.
+</p>
+
+
+<h3 id="LCDprog">LCD interface program</h3> 
+<p>
+This code will interface to a standard LCD controller like the Hitachi 
+HD44780. It uses it in 4 bit mode. The LCD program is written is C 
+language, and will display expression "MicrocontrollerBoard.com".<br>
+Here's a table with an explanation of functions: 
+</p>
+
+<table border="1" width="100%">	<tbody><tr>		<td><b>Function</b></td>		<td><b>Explanation</b></td>	</tr>	<tr>		<td>Init_lcd()</td>		<td>Initializing the LCD to work in the 4-bit</td>	</tr>	<tr>		<td>Write_com_lcd()</td>		<td>Sends a command to LCD</td>	</tr>	<tr>		<td>Write_char_lcd()</td>		<td>Sends a letter to LCD</td>	</tr>	<tr>		<td>Write_string_lcd()</td>		<td>Sends a string to LCD</td>	</tr>	<tr>		<td>Clear_lcd()</td>		<td>Clears LCD</td>	</tr>	<tr>		<td>Goto_lcd()</td>		<td>Moves the cursor to the specified address</td>	</tr></tbody></table>
+<p>
+<a href="http://www.microcontrollerboard.com/support-files/lcd_pic16f877a_microcontroller.zip" onmouseout="window.status=''; return true" onmouseover="window.status='Click here'; return true"> Download here the FREE LCD program written in C language</a>
+</p>
+ <p>/ * 	<br>   * 	 This code will interface to a standard LCD controller <br>   * 	 like the Hitachi HD44780.  It uses it in 4 bit mode, with <br>   * 	 the hardware connected as follows (the standard 14 pin<br>    * 	 LCD connector is used): <br>   * 	<br>   * 	 PORTD bits 0-3 are connected to the LCD data bits 4-7 (high nibble) <br>   * 	 PORTE bit 0 is connected to the LCD RS input (register select) <br>   * 	 PORTE bit 2 is connected to the LCD EN bit (enable) <br>   *           PORTE bit 1 is connected to the LCD RW bit (read or write) <br>   * 	   * 	 To use these routines, set up the port I / O (TRISE, TRISD) then <br>   * 	 call Init_lcd (), then other routines as required.<br>    * 	<br>   * / <br>#include &lt;pic.h&gt;<br>static bit LCD_RS @ ((unsigned)&amp;PORTE*8+0);  // Register select <br>static bit LCD_EN @ ((unsigned)&amp;PORTE*8+2);  // Enable<br>static bit LCD_RW @ ((unsigned)&amp;PORTE*8+1);  // R/W<br>#define EN_TRIG ((LCD_EN = 1),(LCD_EN = 0));<br></p><p>//Functions<br></p><p>void DelayMs (int x);<br>  void DelayUs (int x); <br> void Init_lcd (void); <br> void Write_com_lcd (unsigned char c); <br> void Write_char_lcd (unsigned char c); <br> void Write_string_lcd (const char * s); <br> void Clear_lcd (void); <br> void Goto_lcd (unsigned char pos);<br> </p><p> void main () <br>   {<br>	    ADCON1 = 0x0e;  // Set PORTA as digital port<br>            TRISA = 0;      // Set PORTA as output<br>	    TRISE = 0;	    // Set PORTE as output<br>            TRISD = 0;      // Set PORTD as output<br>            Init_lcd();     // LCD Initialization<br>            Clear_lcd();    // Reset LCD and move to start position<br>            Write_string_lcd("MicrocontrollerBoard.com");<br>            while(1);<br>   }<br></p><p> /*---------------------------------------------*/ <br> void Init_lcd (void) <br> {   <br>	    LCD_RW = 0; // write to LCD<br>            LCD_RS = 0;       // write control bytes<br>            DelayMs(15);    // power on delay<br>            PORTD = 0x3; // attention!<br>            EN_TRIG;<br>            DelayMs(5);<br>            EN_TRIG;<br>            DelayUs(100);<br>            EN_TRIG;<br>            DelayMs(5);<br>            PORTD = 0x2; // set 4 bit mode<br>            EN_TRIG;<br>            DelayUs(40);<br>            Write_com_lcd(0x28);   // 4 bit mode, 1/16 duty, 5x8 font<br>            Write_com_lcd(0x08);   // display off<br>            Write_com_lcd(0x0F);   // display on, blink curson on<br>      	    Write_com_lcd(0x06);   // entry mode <br></p><p>}<br></p><p>void DelayMs(int x)<br></p><p>{<br>int y=(x*1000)/15; <br>                                                while(--y != 0)<br>          continue; <br>                      }<br></p><p>void      DelayUs(int x)<br></p><p>{<br>int y = x/15;<br>                                           while(--y != 0)<br>  continue;<br></p><p>}<br></p><p>void Write_com_lcd(unsigned char c)// send command to lcd <br></p><p>{<br>            LCD_RW = 0;<br>             LCD_RS = 0;     // write the command <br>            PORTD = (PORTD &amp; 0xF0) |  (c &gt;&gt; 4);<br>            EN_TRIG;<br>            PORTD = (PORTD &amp; 0xF0) |  (c &amp; 0x0F);<br>            EN_TRIG;<br>            DelayUs(40);<br>}<br></p><p>void Write_char_lcd(unsigned char c)<br></p><p>{<br>            LCD_RW = 0;<br>            LCD_RS = 1;   // write characters<br>            PORTD = (PORTD &amp; 0xF0) |  (c &gt;&gt; 4);<br>            EN_TRIG;<br>            PORTD = (PORTD &amp; 0xF0) |  (c &amp; 0x0F);<br>            EN_TRIG;<br>            DelayUs(40);<br>} <br>           </p><p>void Write_string_lcd(const char * s)<br></p><p>{<br>            LCD_RS = 1;   // write characters<br>            while(*s)<br>                  Write_char_lcd(*s++);<br>}<br></p><p>void Clear_lcd(void)<br></p><p>{<br>            LCD_RS = 0;<br>            Write_com_lcd(0x1);<br>            DelayMs(2);<br>}<br></p><p>void Goto_lcd(unsigned char pos)<br>{<br>            LCD_RS = 0;<br>            Write_com_lcd(0x80+pos);<br>}<br></p>
+
+ 
+ 
+ <p>&nbsp;</p>
+ 
+
+ <!--
+ <div class="AdSenseBoxLeft">
+ 
+ 
+</div>     
+-->
+
+ 
+         
+    
+	 
+	 	 
+	 <div class="ReturnToNavBox">
+<p>
+<a href="http://www.microcontrollerboard.com/pic_microcontroller.html">Back to PIC microcontroller tutorial </a>
+</p>
+ 
+<p>
+<a href="http://www.microcontrollerboard.com/development_tools.html">Back to Development tools</a>
+</p>
+ 
+<p>
+<a href="http://www.microcontrollerboard.com/store.html">Back to MicrocontrollerBoard.com Store</a>
+</p>
+
+
+
+</div></div> <!-- end Liner -->
+      </div> <!-- end CenterColumn -->
+    </div> <!-- end ContentWrapper -->
+ 
+ <!-- SETTING FOR THE LEFT NAVIGATION COLUMN -->
+    
+	<div id="LeftColumn">
+      <div class="Liner">
+ 
+ 
+      <!--  <h4>
+          Left Column: Content can be here
+        </h4>
+		
+		-->
+		
+ 	<!-- GOOGLE CUSTOM SEARCH BOX -->
+	
+	<form action="http://www.microcontrollerboard.com/google-search-result.html" id="cse-search-box">
+  <div>
+<font color="#FFFF"><strong><em>Search this web site:</em></strong></font>
+    <input name="cx" value="partner-pub-7671331486997987:zcn699lbibb" type="hidden">
+    <input name="cof" value="FORID:10" type="hidden">
+    <input name="ie" value="ISO-8859-1" type="hidden">
+    <input style="border: 1px solid rgb(126, 157, 185); padding: 2px; background: rgb(255, 255, 255) url(&quot;https://www.google.com/cse/static/en/google_custom_search_watermark.gif&quot;) no-repeat scroll left center;" name="q" size="17" type="text">
+    <input name="sa" value="Search" type="submit">
+  </div>
+<input value="www.microcontrollerboard.com/lcd.html" name="siteurl" type="hidden"><input value="www.google.com.eg" name="ref" type="hidden"><input name="ss" type="hidden"></form>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/brand"></script>
+ 	
+		<!-- THE END OF GOOGLE CUSTOM SEARCH BOX -->
+			<!-- google vertical link -->
+        
+        
+        <script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* verical 5 links 160x90, created 8/9/10 */
+google_ad_slot = "3003867399";
+google_ad_width = 160;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+</script>
+<br>
+
+		
+		
+		<!-- #BeginLibraryItem "/Library/Left_Nav.lbi" --><div class="Navigation">
+          
+          <h3>
+            PIC Microcontroller Development tools
+          </h3>
+          <ul>
+		     <li><a href="http://www.microcontrollerboard.com/index.html">Home</a></li>
+            <li><a href="http://www.microcontrollerboard.com/development_tools-MPLAB-IDE.html">Microchip MPLAB IDE</a></li>
+
+            <li><a href="http://www.microcontrollerboard.com/development_tools-HI-TECH.html">HI-TECH compiler</a></li>
+            <li><a href="http://www.microcontrollerboard.com/microcontroller_board.html">Microcontroller Board</a></li>
+            <li><a href="http://www.microcontrollerboard.com/pic_programmer.html">PIC USB Programmer</a></li>
+            <li><a href="http://www.microcontrollerboard.com/pic_programmer.html">PIC Debuger</a></li>
+          </ul>
+          
+          <h3>
+            PIC Microcontroller Tutorials
+          </h3>
+		  
+		<ul>  
+		  <li>
+		  	<!-- google vertical link -->
+        
+        
+        <script type="text/javascript"><!--
+google_ad_client = "pub-7671331486997987";
+/* verical 5 links 160x90, created 8/9/10 */
+google_ad_slot = "3003867399";
+google_ad_width = 160;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/show_ads.js">
+</script>
+<br>
+	</li>
+		 </ul> 
+
+          <ul>
+            <li><a href="http://www.microcontrollerboard.com/pic_microcontroller.html">PIC Introduction to PIC</a></li>
+            <li><a href="http://www.microcontrollerboard.com/pic_memory_organization.html">PIC Memory Organization</a></li>
+           <br> 
+           
+           <ul>
+           <h4>
+            PIC Timer Modules
+            </h4>
+           
+            
+            <li><a href="http://www.microcontrollerboard.com/pic-timer0-tutorial.html">PIC Timer0 tutorial</a></li>
+            
+            <li><a href="http://www.microcontrollerboard.com/pic-timer1-tutorial.html">PIC Timer1 tutorial</a></li>
+            
+            <li><a href="http://www.microcontrollerboard.com/pic-timer2-tutorial.html">PIC Timer2 tutorial</a></li>
+            </ul>
+            
+            <li><a href="http://www.microcontrollerboard.com/pic_serial_communication.html">Serial communication / USART</a></li>
+            <li><a href="http://www.microcontrollerboard.com/pic_interrupt.html">PIC Interrupts</a></li>
+
+			<li><a href="http://www.microcontrollerboard.com/analog-to-digital-converter.html">PIC A/D converter</a></li>
+          </ul>
+          
+		 <h3>
+           PIC Microcontroller Projects
+          </h3>
+      
+	      <ul>
+            <li><a href="http://www.microcontrollerboard.com/pic-microcontroller-projects.html">Creating new project</a></li>
+          <li><a href="http://www.microcontrollerboard.com/pic-projects-fire-detector-system.html">PIC Fire Detector project</a></li>
+	
+          </ul>
+          
+		  <h3>
+           General
+          </h3>
+      
+	          <ul>
+		  
+		   <li> <a href="http://www.microcontrollerboard.com/lcd.html">Liquid Crystal Display - LCD</a></li>
+            <li><a href="http://www.microcontrollerboard.com/contact.html">Contact Us</a></li>
+          
+			
+          </ul>
+		  
+		  
+		  
+		  
+		  
+        </div><!-- end Navigation --><!-- #EndLibraryItem --><!--
+ 
+        <p>
+          Content can be written anywhere into the left column, like this.
+        </p>
+ 
+ 		-->
+ 
+      </div> <!-- end Liner -->
+    </div> <!-- end LeftColumn -->
+ 
+ 
+ 
+ 
+ 
+    <div id="RightColumn">
+      <div class="Liner">
+      
+	  <!-- 
+        <h4>
+          Right Column: <em>180 px</em>
+        </h4>
+ 
+<p>
+          Content can be written anywhere into the right column, like this.
+        </p>
+		
+		-->
+		
+		
+		
+
+		
+		
+       <br>
+       
+       <script language="javascript" id="mNSC" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/cmedianet_002"></script>
+       
+       <script type="text/javascript"><!--
+amazon_ad_tag = "microcoboard-20"; amazon_ad_width = "160"; amazon_ad_height = "600"; amazon_ad_logo = "hide"; amazon_ad_link_target = "new"; amazon_ad_price = "retail"; amazon_color_background = "6680D5";//--></script>
+<script type="text/javascript" src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/ads.js"></script><script src="Embedded%20Engineering%20%20%20Custom%20Character%20Generation%20on%2016x2%20char%20lcd_files/ads-common.js" type="text/javascript"></script>
+        
+ 
+        <!-- ~~~~~ Google Ad Box ~~~~~ -->  
+     
+
+ 
+        <!-- ~~~~~ Google Ad Box ~~~~~ -->
+ 
+      </div><!-- end Liner-->
+    </div><!-- end RightColumn --><!-- #BeginLibraryItem "/Library/Footer.lbi" -->      <div id="Footer">
+      <div class="Liner">
+ 
+<div class="text-NavBar">
+       	<ul>
+       		<li><a href="http://microcontrollerboard.blogspot.com/" onclick="window.location.href='http://www.microcontrollerboard.com/cgi-bin/counter.pl?url=http%3A%2F%2Fmicrocontrollerboard%2Eblogspot%2Ecom%2F&amp;referrer=http%3A%2F%2Fwww%2Emicrocontrollerboard%2Ecom%2Findex%2Ehtml'; return false;"><strong>Microcontroller Board Blog</strong></a></li>
+       		<li><a href="http://www.microcontrollerboard.com/store.html">Microcontroller Board Store</a></li>
+       		<li><a href="http://www.microcontrollerboard.com/contact.html">Contact Page</a></li>
+       		
+       	</ul>
+       </div>
+        
+        <p>
+          Copyright © 2008-2012 MicrocontrollerBoard.com. All rights reserved.
+        </p>
+    </div><!-- end Liner -->
+   </div><!-- end Footer --><!-- #EndLibraryItem --></div> <!-- end PageWrapper -->
+ 
+
+
+
+
+</body></html>

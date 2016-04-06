@@ -1,0 +1,627 @@
+/* v 0.91 */
+
+/* ------ Section 1 - Global Body, Font and Link Settings ------ */
+
+
+
+
+body {
+background-color: #ffffff; /* white for browser window background color and footer top border */
+margin: 0;
+padding: 0;
+font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+color: #000;
+font-size: 80%;
+}
+
+
+
+
+/* -- General Link Styling -- */
+
+a:link {
+color:blue; 
+text-decoration: underline;
+}
+
+a:visited {
+color: purple;
+text-decoration: underline;
+}
+
+a:hover {
+color: red;
+text-decoration: underline;
+}
+
+/* ADDINGS FOR THE STORE PAGE STARTS HERE ---*/
+
+#checkoutDiv {
+	float: right;
+	width: 200px;
+	font-size: 12px;
+}
+
+
+td {
+	font:11px Arial, Helvetica, sans-serif;
+	color:#000000;	
+	}
+	
+.pageName {
+	font:24px Arial, Helvetica, sans-serif;
+	color: #FF6600;
+	letter-spacing:.2em;
+	line-height:32px;
+	}
+
+	/* ADDINGS FOR THE STORE PAGE ENDS HERE ---*/
+	
+	
+/* ------ Section 2 - Global Page Structure ------- */
+
+#PageWrapper {
+	width: 990px;
+}
+
+#Header {
+	height: 180px;
+	background-image: url(../image-files/header-top.jpg);
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	background-position: top left;
+}
+
+
+
+
+#ContentWrapper {
+float: left;
+width: 100%;
+}
+
+#CenterColumn {
+margin: 0 180px 0 180px;    /* STEP 1: set to "0 RightColumnWidth 0 LeftColumnWidth" */
+}
+
+#LeftColumn {
+	float: left;
+	width: 179px;               /* STEP 2: to set left column at 180, set 1 less than 180 here */
+	margin-left: -990px;        /* STEP 3: set to the same width specified in #PageWrapper above (but with minus sign)  */
+}
+#Google-Horiz-link {
+	position: absolute;
+	text-align: center;
+	top: 174px;
+	width: 730px;
+	height: 17px;
+}
+
+
+#RightColumn {
+float: left;
+width: 179px;               /* STEP 4: to set right columns at 180, set 1 less than 180 here */
+margin-left: -180px;        /* STEP 5: set to -(RightColumnWidth) */
+}
+
+#Footer {
+clear: both;
+width: 100%;
+text-align: center;
+padding: 8px 0;
+}
+
+.Liner {
+	padding: 5px 5px;
+}
+
+#Header .Liner {
+padding: 10px 10px;
+}
+
+#Footer .Liner {
+margin: 0;
+padding: 0;
+}
+
+
+
+/* ------ Section 3 - Page Structure Details ------ */
+
+#PageWrapper {
+	border: 2px solid #8f8fb3;   /* dark sea blue, headlines and borders */
+	margin: 10px auto;
+	background-color:#6680d5;
+}
+
+
+#ContentWrapper {
+/* background-image: url(../image-files/microcontroller-background.gif); */
+background-repeat: repeat-y;
+}
+
+#LeftColumn {
+background-image: url(../image-files/left-column-background1.jpg);
+background-repeat: repeat-y;
+background-color: transparent;
+}
+
+/*Here I can change the background of the center column*/
+
+#CenterColumn {
+background-image: url();
+background-repeat: no-repeat;
+background-color: #FFFFFF;
+}
+
+#RightColumn {
+background-image: url();
+background-repeat: no-repeat;
+/*background-color: transparent; */
+background-color: #6680d5;
+}
+
+#Footer {
+background-image: url();
+background-repeat: no-repeat;
+background-color: #abc4e3;     /* blue-gray used in left and right columns of microcontroller-background.gif and for footer and horizontal text-navbar */
+border-top: 1px solid #f0f5fb;
+}
+
+
+
+/* ------ Section 4 - Left Column Navigation ------ */
+
+
+.Navigation {
+width: 100%;
+font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+background-color: transparent;
+}
+
+
+/* -- Nav Headers -- */
+
+.Navigation h3 {
+padding: 0;
+font-size: 110%;
+color: #fff;
+border-bottom: 1px solid #fff;
+margin: 12px 0;
+}
+
+
+
+/* -- Nav List -- */
+
+.Navigation ul {
+list-style-type: none;
+padding: 0 0 8px 5px;
+margin: -6px 0 0 0;
+}
+
+.Navigation li {
+background-color: #ffc;        /* tan, for button and RSS box backgrounds -- */
+border: 1px solid #8f8fb3;
+margin-bottom: 3px;
+}
+
+
+/* -- Navigation Link styles -- */
+
+.Navigation a {
+color: blue;
+display: block;     /*  this makes the whole box highlight rather than just the text */
+padding: 3px 0 3px 4px;
+text-decoration: underline;
+}
+
+.Navigation a:visited {
+color: purple;
+text-decoration: none;
+}
+
+.Navigation a:hover {
+color: red;
+background-color: #d3e4fb;   /* light sea blue used in center column of microcontroller-background.gif and for lit buttons both navbars and AdSenseBox bg color */
+text-decoration: underline;
+}
+
+
+
+
+/* ------ Section 5 - Additional Navigation ------ */
+
+
+/* -- Thumbnail-with-Caption Navigation -- */
+
+.imageCaptionLinkGroup {
+text-align: center;
+}
+
+.imageCaptionLinkGroup a {
+text-decoration: none;
+}
+
+.imageCaptionLinkGroup .caption {
+text-decoration: underline;
+}
+
+
+/* -- Horizontal Text NavBar -- */
+
+.text-NavBar {
+font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+margin: 12px auto 12px auto;
+background-color: #abc4e3;
+width: 600px;           /* same width as the width of the center column (960 -180 - 180) */
+}
+
+.text-NavBar ul {
+list-style-type: none;
+padding: 0;
+}
+
+.text-NavBar ul li {
+display: inline;
+background-color: #ffc;
+text-align: center;
+}
+
+.text-NavBar a {
+color: blue;
+text-decoration: none;
+text-align: center;
+padding: 0 4px;
+}
+
+.text-NavBar a:visited {
+color: purple;
+text-decoration: none;
+}
+
+.text-NavBar a:hover {
+color: red;
+background-color: #d3e4fb;
+text-decoration: underline;
+}
+/* --- Page Top Text NavBar ---- */
+
+#pagetop-NavBar {
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+	margin: 0;
+	float:right;
+	position: absolute;
+	text-align: center;
+	top: 144px;
+	width: 820px;
+
+
+
+}
+#pagetop-NavBar ul {
+list-style-type: none;
+padding:0;
+}
+#pagetop-NavBar ul li {
+display: inline;
+background-color: #ffc;
+text-align: center;
+}
+#pagetop-NavBar a {
+color: rgb(0, 140, 0);
+text-decoration: underline;
+text-align: center;
+padding:0 24px;
+}
+#pagetop-NavBar a:visited {
+color: green;
+text-decoration: none;
+}
+#pagetop-NavBar a:hover {
+color: rgb(73, 120, 183);
+text-decoration: underline;
+}
+
+
+
+
+/* ------ Section 6 - Specific Font Styles ------ */
+
+#LeftColumn {
+font-size: 90%;
+color: white;
+}
+
+#RightColumn {
+font-size: 90%;
+}
+
+#Footer {
+font-size: 85%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+background-color: transparent;
+color: #1d487e;
+clear: both;
+}
+
+h2, h3, h4, h5, h6 {
+margin-top: 24px;
+}
+
+
+h1 {
+margin-top: 5px;
+font-family: 'Times New Roman', Georgia, 'Palatino Linotype', Palatino, serif;
+border-bottom: 0 solid #8f8fb3;
+text-align: center;
+}
+
+h2 {
+font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+border-bottom: 1px solid #8f8fb3;
+}
+
+h3 {
+font-family: 'Lucida Sans Unicode', 'Lucida Grande', Verdana, Arial, sans-serif;
+border-bottom: 0 solid #8f8fb3;
+}
+
+#LeftColumn h4 {
+font-size: 90%;
+color: white;
+margin-top: 0;
+}
+
+#RightColumn h4 {
+font-size: 90%;
+color: white;
+margin-top: 0;
+}
+
+.Caption {
+font-size: 85%;
+font-weight: bold;
+color: #000;
+clear: both;
+line-height: 14px;
+}
+
+blockquote {
+margin: 12px 56px;
+color: #006;
+font-size: 100%;
+line-height: 20px;
+font-family: 'Courier New', Courier, monospace;
+}
+
+
+
+/* ------ Section 7 - Boxes ------ */
+
+
+.CalloutBox {
+background-color: #fff;
+width: 85%;
+border: 1px dotted #8f8fb3;
+margin: 18px auto 24px auto;
+padding: 4px;
+color: black;
+}
+
+div.CalloutBox p {
+margin: 13px;
+}
+p.CalloutBox {
+padding: 13px;
+}
+
+div.CalloutBox h1, h2, h3, h4, h5, h6 {
+margin: 0;
+}
+p.CalloutBox h1, h2, h3, h4, h5, h6 {
+padding: 0;
+}
+
+
+.ReminderBox {           /* the container box */
+background-color: #ddd;
+width: 24%;
+border: 1px solid #8f8fb3;
+margin: 0 0 12px 18px;
+float: right;             /* adding float enables text to flow around it */
+color: #006;
+}
+
+.ReminderBox h4 {
+margin: 0;
+padding: 2px;
+text-align: center;
+background-color: #fff;
+}
+
+.ReminderBox p {
+font-size: 80%;
+padding: 0 4px;
+line-height: 13px;
+}
+
+
+.AdSenseBoxLeft, .AdSenseBoxRight, .AdSenseBoxCenter468, .AdSenseBoxRightColumn {
+	padding: 5px;
+	border: 0px;
+}
+.AdSenseBoxLeft {
+margin: 0 18px 12px 18px;
+float: left;
+}
+.AdSenseBoxRight {
+margin: 0 18px 12px 18px;
+float: right;
+}
+.AdSenseBoxCenter468 {
+	width: 470px;
+	margin: 0 auto 12px auto;
+	clear: both;
+}
+.AdSenseBoxRightColumn {
+padding: 0;
+margin: 0 auto 12px auto;
+clear: both;
+}
+
+
+.ReturnToNavBox {
+background-color: #fff;
+width: 90%;
+border-top: 1px solid #8f8fb3;
+border-bottom: 1px solid #8f8fb3;
+margin: 0 auto 12px auto;
+padding: 4px;
+}
+	
+
+/* -- RSS Box -- original settings */
+
+/*
+#RSSbox {
+width: 148px;
+background-color: #ffc;
+border: 1px solid #8f8fb3;
+margin: 8px auto 10px 3px;
+padding: 2px 2px 10px 2px;
+font-size: 100%;
+font-weight: bold;
+color: #1d487e;
+line-height: 14px;
+text-align: center;
+}
+
+*/
+
+
+
+#RSSbox 
+
+{
+width: 152px;
+background-color: #ffffcc;
+border-top-width: 1px;
+border-right-width-value: 1px;
+border-right-width-ltr-source: physical;
+border-right-width-rtl-source: physical;
+border-bottom-width: 1px;
+border-left-width-value: 1px;
+border-left-width-ltr-source: physical;
+border-left-width-rtl-source: physical;
+border-top-style: solid;
+border-right-style-value: solid;
+border-right-style-ltr-source: physical;
+border-right-style-rtl-source: physical;
+border-bottom-style: solid;
+border-left-style-value: solid;
+border-left-style-ltr-source: physical;
+border-left-style-rtl-source: physical;
+border-top-color: #8f8fb3;
+border-right-color-value: #8f8fb3;
+border-right-color-ltr-source: physical;
+border-right-color-rtl-source: physical;
+border-bottom-color: #8f8fb3;
+border-left-color-value: #8f8fb3;
+border-left-color-ltr-source: physical;
+border-left-color-rtl-source: physical;
+margin-top: 8px;
+margin-right: auto;
+margin-bottom: 10px;
+margin-left: 3px;
+padding-top: 2px;
+padding-right: 2px;
+padding-bottom: 10px;
+padding-left: 2px;
+font-size: 100%;
+font-weight: bold;
+color: #1d487e;
+line-height: 14px;
+text-align: center;
+
+}
+
+
+
+/* ------ Section 8 - Frequently Used Styles ------ */
+
+
+.clear {
+clear: both;
+}
+
+
+img {
+border: 0 solid #ddd;
+}
+
+
+/* -- lists -- */
+
+#CenterColumn ul {
+list-style-type: disc;
+margin: 0 0 8px 10px;
+}
+
+#CenterColumn li {
+margin: 0 0 8px 5px;
+}
+
+
+#CenterColumn ol {
+list-style-type: decimal;
+margin: 0 0 8px 10px;
+}
+
+#CenterColumn li {
+margin: 0 0 8px 5px;
+}
+
+
+/* -- floats -- */
+
+.ItemRight {
+float: right;
+margin: 2px 0 12px 18px;
+text-align: center;
+}
+
+.ItemCenter {
+margin: 2px auto 12px auto;
+text-align: center;
+clear: both;
+}
+
+.ItemLeft {
+float: left;
+margin: 2px 18px 12px 0;
+text-align: center;
+}
+
+.center { 
+text-align: center;
+}
+
+/******FORM****/
+
+.form-text{ float:right; color:#5e5e5e; font-size:12px; line-height:14px; padding:5px 9px 38px 0;}
+.form-text p{ text-align:right;}
+.form-text a{ color:#ff9500; font-style:italic;}
+
+.form .input, .form .textarea{ border:1px solid #a3a3a3; color:#5e5e5e; width:260px; padding:2px 0 2px 5px; font-family:Arial, Helvetica, sans-serif; font-size:11px; line-height:14px;}
+.form .textarea{ height:135px;}
+.form label{ line-height:21px;}
+
+.button{ width:73px; height:20px; text-align:center; color:#FFF; font-size:10px; line-height:21px; background:#ff9500; display:block; text-transform:uppercase; text-decoration:none; font-family:Arial, Helvetica, sans-serif;}
+.button:hover{ background:#919191;}
+.form-button{ padding:9px 0 0 0; float:left;}
+.form-button-indent{ margin:0 17px 0 0;}
+.form-button a{ float:left;}
+.form{ padding:0 10px 0 0;}
