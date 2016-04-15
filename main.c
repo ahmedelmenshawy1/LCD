@@ -14,7 +14,7 @@
 int main(void)
 {
 	u16 i=20;
-	DIO_voidInit();
+	DIO_VoidInit();
 	LCD_VoidInit();
 	while(1)
 	{
